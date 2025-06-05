@@ -1,4 +1,3 @@
-// Form handling for registration
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
@@ -17,11 +16,10 @@ if (registerForm) {
             return;
         }
 
-        // Simulate registration
         console.log('Registration data:', userData);
         alert('Registration successful!');
         
-        // Redirect based on user type
+
         if (userData.userType === 'admin') {
             window.location.href = 'admin-dashboard.html';
         } else {
@@ -30,7 +28,7 @@ if (registerForm) {
     });
 }
 
-// Form handling for login
+
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
@@ -41,12 +39,10 @@ if (loginForm) {
             password: formData.get('password')
         };
 
-        // Simulate login
+
         console.log('Login data:', loginData);
         alert('Login successful!');
         
-        // For demo purposes, redirect to customer dashboard
-        // In a real application, this would depend on the user's role
         window.location.href = 'customer-dashboard.html';
     });
 }
