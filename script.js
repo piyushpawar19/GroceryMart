@@ -1,3 +1,18 @@
+const defaultAdmin = {
+    fullname: "Piyush Pawar",
+    email: "piyushpawar193@gmail.com",
+    phone: "6268212347",
+    password: "piyush@1234",
+    confirmPassword: "piyush@1234",
+    userType: "admin"
+};
+
+const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+const isDefaultAdminPresent = storedUsers.some(user => user.email === defaultAdmin.email);
+if (!isDefaultAdminPresent) {
+    storedUsers.push(defaultAdmin);
+    localStorage.setItem("users", JSON.stringify(storedUsers));
+}
 
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
