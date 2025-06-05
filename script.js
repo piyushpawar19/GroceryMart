@@ -1,3 +1,4 @@
+
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
@@ -30,11 +31,9 @@ if (registerForm) {
             messages.push("Enter a valid 10-digit Indian phone number.");
         }
 
-
         if (!passwordRegex.test(userData.password)) {
             messages.push("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
         }
-
 
         if (userData.password !== userData.confirmPassword) {
             messages.push("Passwords do not match.");
@@ -45,10 +44,19 @@ if (registerForm) {
             return;
         }
 
+        const users = JSON.parse(localStorage.getItem("users")) || [];
 
-        console.log('Registration data:', userData);
+        const existingUser = users.find(user => user.email === userData.email);
+        if (existingUser) {
+            alert("User already registered with this email.");
+            return;
+        }
+
+        users.push(userData);
+        localStorage.setItem("users", JSON.stringify(users));
+
         alert('Registration successful!');
-        
+        console.log('Stored User:', userData);
 
         if (userData.userType === 'admin') {
             window.location.href = 'admin-dashboard.html';
@@ -69,10 +77,23 @@ if (loginForm) {
             password: formData.get('password')
         };
 
+        const users = JSON.parse(localStorage.getItem("users")) || [];
 
-        console.log('Login data:', loginData);
-        alert('Login successful!');
-        
-        window.location.href = 'customer-dashboard.html';
+        const matchedUser = users.find(
+            user => user.email === loginData.email && user.password === loginData.password
+        );
+
+        if (matchedUser) {
+            alert('Login successful!');
+            console.log('Logged In:', matchedUser);
+
+            if (matchedUser.userType === 'admin') {
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                window.location.href = 'customer-dashboard.html';
+            }
+        } else {
+            alert('Invalid email or password!');
+        }
     });
 }
