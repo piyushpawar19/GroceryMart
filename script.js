@@ -6,15 +6,45 @@ if (registerForm) {
         const userData = {
             fullname: formData.get('fullname'),
             email: formData.get('email'),
+            phone: formData.get('phone'),
             password: formData.get('password'),
             confirmPassword: formData.get('confirmPassword'),
             userType: formData.get('userType')
         };
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[6-9][0-9]{9}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
+
+        let messages = [];
+
+        if (!userData.fullname.trim()) {
+            messages.push("Full name is required.");
+        }
+
+        if (!emailRegex.test(userData.email)) {
+            messages.push("Enter a valid email address.");
+        }
+
+        if (!phoneRegex.test(userData.phone)) {
+            messages.push("Enter a valid 10-digit Indian phone number.");
+        }
+
+
+        if (!passwordRegex.test(userData.password)) {
+            messages.push("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
+        }
+
+
         if (userData.password !== userData.confirmPassword) {
-            alert('Passwords do not match!');
+            messages.push("Passwords do not match.");
+        }
+
+        if (messages.length > 0) {
+            alert(messages.join('\n'));
             return;
         }
+
 
         console.log('Registration data:', userData);
         alert('Registration successful!');
